@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Author, Book, BookInstance, Genre
+from django.views import generic
 
 # Create your views here.
 def index(request):
@@ -34,3 +35,22 @@ def index(request):
 
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
+
+
+class BookListView(generic.ListView):
+    """ A class that inherits the generic ListView.
+    The generic view will query the database to get all records for the specified model (Book)
+    then render a template located at localibrary/catalog/templates/catalog/book_list.html
+    """
+    model = Book
+    paginate_by = 10
+
+class BookDetailView(generic.DetailView):
+    model = Book
+
+class AuthorListView(generic.ListView):
+    model = Author
+    paginate_by = 10
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
