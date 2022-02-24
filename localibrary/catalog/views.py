@@ -112,7 +112,7 @@ def renew_book_librarian(request, pk):
         # Check if the form is valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
-            book_instance.due_back = form.cleaned_data['renewal_date']
+            book_instance.due_back = form.cleaned_data['due_back']
             book_instance.save()
 
             # redirect to a new URL:
@@ -152,4 +152,21 @@ class AuthorUpdate(PermissionRequiredMixin, UpdateView):
 class AuthorDelete(PermissionRequiredMixin, DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
+    permission_required = 'catalog.can_mark_returned'
+
+
+class BookCreate(PermissionRequiredMixin, CreateView):
+    model = Book
+    fields = ['title', 'author', 'summary', 'isbn', 'genre', 'language']
+    initial = {'language': 'English'}
+    permission_required = 'catalog.can_mark_returned'
+
+class BookUpdate(PermissionRequiredMixin, UpdateView):
+    model = Book
+    fields = ['title', 'author', 'summary', 'isbn', 'genre', 'language']
+    permission_required = 'catalog.can_mark_returned'
+
+class BookDelete(PermissionRequiredMixin, DeleteView):
+    model = Book
+    success_url = reverse_lazy('books')
     permission_required = 'catalog.can_mark_returned'

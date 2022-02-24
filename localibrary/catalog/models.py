@@ -116,4 +116,4 @@ class Author(models.Model):
         return f'{self.last_name}, {self.first_name}'
 
     class Meta:
-        ordering = ['first_name', 'last_name']
+        ordering = ['last_name', 'first_name']
